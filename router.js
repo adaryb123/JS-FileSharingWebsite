@@ -9,10 +9,8 @@ var router = express.Router();
 
 var file_storage = multer.diskStorage({
     destination:"file_storage",
-    filename: function(req,file,cb){
-        crypto.pseudoRandomBytes(16,function(err,raw){
-            cb(null,raw.toString("hex") + Date.now() + path.extname(file.originalname))
-        });
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "--" + file.originalname);
     }
 });
  
@@ -22,16 +20,14 @@ router.get("/",function(req,res){
     res.render("main_screen");
 });
 
+router.post("/upload", upload.single("shared_file") ,function(req,res,next){
+    var filename = req.file.filename;
+    var downloadURL = "download/" + crypto.pseudoRandomBytes(20).toString("hex")
+    var manageURL = "manage/" + crypto.pseudoRandomBytes(20).toString("hex")
 
-// nepozna co je document- bud treba prestat pouzivat ejs alebo najst iny sposob ako zmenit hodnotu prvku
-router.post("/upload", upload.single("shared_file") ,async function(req,res,next){
-    // res.body.murl = "test";
-    // console.log(path.basename(req.files.file.path));
-    // var filename = path.basename(req.files.file.path)
-    // console.log(filename)
-    var filename = "testName"
-    var downloadURL = "testD"
-    var manageURL = "testM"
+    console.log(filename)
+    console.log(downloadURL)
+    console.log(manageURL)
 
     var newFile = new File({
         filename:filename,
@@ -40,8 +36,9 @@ router.post("/upload", upload.single("shared_file") ,async function(req,res,next
     });
 
     newFile.save(next);
-    // document.getElementById("durl").value = "test durl";
-    // document.getElementById("murl").value = "test murl";
+    /*res.render("main_screen")
+    res.body.durl = downloadURL;
+    res.body.murl = manageURL;*/
 });
 
 router.post("/download",function(req,res){

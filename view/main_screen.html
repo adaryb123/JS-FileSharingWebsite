@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+
+<body>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <h1>File sharing site</h1>
+        <h2>Choose file to upload:</h2> 
+        <input type="file" id="shared_file" name="shared_file"/>
+        <div>
+            <button name="upload_button" onclick="uploadFile()">Upload</button>
+        </div>
+        <div>
+            <h2>Url to download this file:</h2>
+            <input type="text" id="durl" class="form-control" name="durl"><br><br>
+        </div>
+        <div>
+            <h2>Url to maintain this file:</h2>
+            <input type="text" id="murl" class="form-control" name="murl"><br><br>
+        </div>
+
+        <script src="../static/main_screen.js"></script>
+    </form>
+</body>
+</html>
+
