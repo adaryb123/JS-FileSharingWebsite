@@ -3,27 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
+    <link rel="stylesheet" href="../static/styles.css" />
 </head>
 
 <body>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <h1>File sharing site</h1>
-        <h2>Choose file to upload:</h2> 
-        <input type="file" id="shared_file" name="shared_file"/>
-        <div>
-            <button name="upload_button" onclick="uploadFile()">Upload</button>
-        </div>
-        <div>
-            <h2>Url to download this file:</h2>
-            <input type="text" id="durl" class="form-control" name="durl"><br><br>
-        </div>
-        <div>
-            <h2>Url to maintain this file:</h2>
-            <input type="text" id="murl" class="form-control" name="murl"><br><br>
-        </div>
+    <div class="parent">
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <h1>File sharing site</h1>
+            <div>
+                <h3 class="inline-block-text inline-block-child">Choose file to upload:</h3> 
+                <input class="file-button inline-block-child" type="file" name="shared_file" value="no file selected">
+            </div>
+            <button class="upload-button" name="upload_button" onclick="uploadFile()">Upload</button>
+            <div>
+                <h3 class="inline-block-text inline-block-child">URL to download this file:</h3>
+                <input class="inline-block-textfield inline-block-child" type="text" class="form-control" name="download-url">
+            </div>
+            <div>
+                <h3 class="inline-block-text inline-block-child">URL to maintain this file:</h3>
+                <input class="inline-block-textfield inline-block-child" type="text" class="form-control" name="manage-url">
+            </div>
+        </form>
 
         <script src="../static/main_screen.js"></script>
-    </form>
+    </div>
+
 </body>
 </html>
 

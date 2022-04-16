@@ -24,28 +24,28 @@ router.post("/upload", upload.single("shared_file") ,function(req,res,next){
     var filename = req.file.filename;
     var downloadURL = "download/" + crypto.pseudoRandomBytes(20).toString("hex")
     var manageURL = "manage/" + crypto.pseudoRandomBytes(20).toString("hex")
+    var originalName = filename.slice(15)
 
     console.log(filename)
     console.log(downloadURL)
     console.log(manageURL)
+    console.log(originalName)
 
     var newFile = new File({
         filename:filename,
         downloadURL:downloadURL,
-        manageURL:manageURL
+        manageURL:manageURL,
+        originalName:originalName
     });
 
     newFile.save(next);
-    /*res.render("main_screen")
-    res.body.durl = downloadURL;
-    res.body.murl = manageURL;*/
 });
 
-router.post("/download",function(req,res){
+router.get("/download",function(req,res){
     res.render("download_screen")
 });
 
-router.post("/manage",function(req,res){
+router.get("/manage",function(req,res){
     res.render("manage_screen")
 });
 

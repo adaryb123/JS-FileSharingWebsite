@@ -1,3 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage page</title>
+    <link rel="stylesheet" href="../static/styles.css" />
+</head>
+
+<body>
+    <div class="parent">
+        <h1>Manage file screen</h1>
+        <div>
+            <h3 class="inline-block-text inline-block-child">File name:</h3> 
+            <input class="inline-block-textfield inline-block-child" type="text" id="filename" name="filename">
+            <button class="intline-block-button inline-block-child" name="download">Download</button>
+        <div>
+        <button class="remove-button" name="remove">Remove file</button><br>
+        <h2 class="section-heading">File info</h2><br>
+        <div>
+            <h3 class="inline-block-text inline-block-child">Times downloaded</h3>
+            <input class="inline-block-textfield inline-block-child" type="text" name="times-downloaded">
+        </div>
+        <div>
+            <h3 class="inline-block-text inline-block-child">Upload date</h3>
+            <input class="inline-block-textfield inline-block-child" type="text" name="upload-date">
+        </div>
+    </div>
+</body>
+</html>
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +38,19 @@
 </head>
 
 <body>
-    <h1>Manage screen</h1>
+    <h1>Manage file screen</h1>
+    <input type="text" id="filename" name="filename" value="file name will be here"><br>
+    <button name="download">Download</button>
+    <button name="remove">Remove file</button>
+    <div>
+        <h1>Times downloaded:</h1>
+        <input type="text" name="times_downloaded">
+    </div>
+    <div>
+        <h1>Upload date:</h1>
+        <input type="text" name="upload_date">
+    </div>
+    
 </body>
 </html>
+--->

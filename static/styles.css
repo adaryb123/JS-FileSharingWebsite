@@ -1,0 +1,46 @@
+.parent {
+    width: 70%;
+    border: 10px solid black;
+    background: turquoise;
+}
+
+h1 {
+    position: relative;
+    left: 35%;
+}
+
+h3 {
+    position: relative;
+    left: 5%;
+}
+
+.inline-block-child {
+    display: inline-block;
+}
+
+.inline-block-text {
+    width: 40%;
+}
+
+.file-button {
+    width: 50%;
+}
+
+.upload-button {
+    position: relative;
+    left: 40.5%;
+}
+
+.inline-block-textfield {
+    width: 40%;
+}
+
+.remove-button{
+    position: relative;
+    left: 82%;
+}
+
+.section-heading{
+    position: relative;
+    left: 35%;
+}
