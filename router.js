@@ -35,6 +35,7 @@ router.post("/upload", upload.single("shared_file") ,function(req,res,next){
         filename:filename,
         downloadURL:downloadURL,
         manageURL:manageURL,
+        uploadDate: new Date(Date.now()),
         originalName:originalName
     });
 
