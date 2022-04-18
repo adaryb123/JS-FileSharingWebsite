@@ -12,20 +12,27 @@
         <h1>Manage file screen</h1>
         <div>
             <h3 class="inline-block-text inline-block-child">File name:</h3> 
-            <input class="inline-block-textfield inline-block-child" type="text" id="filename" name="filename">
-            <button class="intline-block-button inline-block-child" name="download">Download</button>
+            <input class="inline-block-textfield inline-block-child" type="text" name="filename" id="fileLink" value="<%= fileLink %>">
+            <button class="inline-block-button inline-block-child" name="download" id="downloadBtn">Download</button>
         <div>
-        <button class="remove-button" name="remove">Remove file</button><br>
+        <button class="remove-button" name="remove" id="removeBtn">Remove file</button><br>
         <h2 class="section-heading">File info</h2><br>
         <div>
             <h3 class="inline-block-text inline-block-child">Times downloaded</h3>
-            <input class="inline-block-textfield inline-block-child" type="text" name="times-downloaded">
+            <input class="inline-block-textfield inline-block-child" type="text" name="times-downloaded" id="times_downloaded" value="<%= times_downloaded %>">
         </div>
         <div>
             <h3 class="inline-block-text inline-block-child">Upload date</h3>
-            <input class="inline-block-textfield inline-block-child" type="text" name="upload-date">
+            <input class="inline-block-textfield inline-block-child" type="text" name="upload-date" id="upload_date" value="<%= upload_date %>">
+        </div>
+        <div>
+            <h3 class="inline-block-text inline-block-child">Download URL</h3>
+            <input class="inline-block-textfield inline-block-child" type="text" name="download-url" id="download_url" value="<%= download_url %>">
+            <button class="inline-block-button inline-block-child" name="generate" id="generateBtn">Generate new</button>
+
         </div>
     </div>
+    <script src="../static/manage_screen.js"></script>
 </body>
 </html>
 
