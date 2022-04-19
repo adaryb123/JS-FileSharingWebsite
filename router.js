@@ -92,6 +92,16 @@ router.post("/updateURL", async(req,res) => {
     res.send({URL: newURL})
 })
 
+router.post("/removeFile", async (req, res) => {
+    var URL = hostUrl + "manage/" + req.body.fileURL
+    try{
+        await File.findOneAndRemove({manageURL: URL});
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect("/");
+})
+
 router.get("/getFile/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})

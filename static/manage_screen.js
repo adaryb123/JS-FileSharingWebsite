@@ -1,8 +1,8 @@
 const downloadBtn = document.getElementById("downloadBtn");
 const linkInput   = document.getElementById("fileLink");
-
+const removeBtn = document.getElementById("removeBtn");
 const generateBtn = document.getElementById("generateBtn");
-const downloadURLInput   = document.getElementById("download_url");
+const downloadURLInput = document.getElementById("download_url");
 
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
@@ -65,4 +65,23 @@ generateBtn.addEventListener('click', function() {
     })
     .catch(error => console.error(error));
 
+})
+
+
+removeBtn.addEventListener('click', function() {
+    manageURL = linkInput.value
+
+    fetch('/removeFile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({fileURL: manageURL}),
+    })
+    .then(response => {
+      if (response.redirected) {
+          window.location.href = response.url;
+      }
+    })
+    
 })
