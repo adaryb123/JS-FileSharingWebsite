@@ -4,6 +4,14 @@ const linkInput   = document.getElementById("fileLink");
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
 
+    fetch('/updateDownloads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({fileURL: fileLink})
+    })
+
     var req = new XMLHttpRequest();
     req.open('GET', "http://localhost:3000/getFile/" + fileLink, true); 
     req.responseType = 'blob'; 
@@ -13,9 +21,7 @@ downloadBtn.addEventListener('click', function() {
           var data = req.response;
           var name = req.getResponseHeader('Content-Disposition').split('filename=')[1];
           name = name.slice(1, -1);
-          // console.log(name);
           var defaultFilename = name;
-          // console.log(name);
           if (typeof window.navigator.msSaveBlob === 'function') {
             window.navigator.msSaveBlob(data, defaultFilename);
           } else {
@@ -32,6 +38,4 @@ downloadBtn.addEventListener('click', function() {
       }
     };
     req.send();
-
-    // console.log();
 })
