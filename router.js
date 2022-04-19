@@ -80,6 +80,18 @@ router.post("/updateDownloads", async (req, res) => {
     res.sendStatus(201);
 })
 
+router.post("/updateURL", async(req,res) => {
+    var manageURL = hostUrl + "manage/" + req.body.fileURL
+    uniquestr = crypto.pseudoRandomBytes(16).toString("hex");
+    var newURL = hostUrl + "download/" + uniquestr
+    try{
+        await File.findOneAndUpdate({manageURL: manageURL}, {downloadURL : newURL});
+    } catch (err) {
+        console.log(err);
+    }
+    res.send({URL: newURL})
+})
+
 router.get("/getFile/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})

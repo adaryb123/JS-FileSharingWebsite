@@ -1,6 +1,9 @@
 const downloadBtn = document.getElementById("downloadBtn");
 const linkInput   = document.getElementById("fileLink");
 
+const generateBtn = document.getElementById("generateBtn");
+const downloadURLInput   = document.getElementById("download_url");
+
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
     /*
@@ -38,4 +41,28 @@ downloadBtn.addEventListener('click', function() {
       }
     };
     req.send();
+})
+
+generateBtn.addEventListener('click', function() {
+    manageURL = linkInput.value
+
+    fetch('/updateURL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({fileURL: manageURL})
+      })
+      .then( res => {
+        if (res.ok) {
+        } else {
+            console.log("Fetch Failed");
+        }
+        return res.json();
+    })
+    .then(data => {
+        downloadURLInput.value = data.URL;
+    })
+    .catch(error => console.error(error));
+
 })
