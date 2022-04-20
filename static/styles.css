@@ -1,46 +1,56 @@
-.parent {
-    width: 70%;
-    border: 10px solid black;
-    background: turquoise;
+
+:root{
+    --darker_grey: #212529;
+    --normal_grey: #6c757d;
+    --light_grey: #adb5bd;
+
 }
 
-h1 {
-    position: relative;
-    left: 35%;
+.body-bground{
+    background-color: var(--normal_grey);
 }
 
-h3 {
-    position: relative;
-    left: 5%;
+.brand{
+    padding-left: 1rem;
+    padding-right: 10rem;
 }
 
-.inline-block-child {
-    display: inline-block;
+.center-right{
+
+    float: right;
+}
+.nav-item {
+    margin-left: 4rem;
 }
 
-.inline-block-text {
-    width: 40%;
+
+.upload {
+    margin: 4rem;
+    margin-left: 12rem;
+    margin-right: 12rem;
+    background-color: var(--light_grey);
+}
+.upload-label{
+    font-size: 1.5rem !important;
 }
 
-.file-button {
-    width: 50%;
+
+.upload_btn{
+    font-size: 1.5rem !important;
 }
 
-.upload-button {
-    position: relative;
-    left: 40.5%;
+.input_format {
+    margin-bottom: 2rem;
+    margin-top: 4rem;
 }
 
-.inline-block-textfield {
-    width: 40%;
+.url_labels {
+    width: 100%;
+    
 }
 
-.remove-button{
-    position: relative;
-    left: 82%;
-}
-
-.section-heading{
-    position: relative;
-    left: 35%;
+.btn_container {
+    text-align: center;
+    font-size: 1.4rem;
+    padding: 1rem;
 }

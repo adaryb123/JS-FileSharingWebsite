@@ -3,17 +3,11 @@ const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("upload");
 const manageL = document.getElementById("manageL");
 const downloadL = document.getElementById("downloadL");
-const formUpload = document.getElementById("uploadForm")
+
 
 uploadBtn.addEventListener("click", function () {
-    const uploadForm = new FormData(formUpload);
+    const uploadForm = new FormData();
    
-    // For multiple files
-    /*for (const file of fileInput.files) {
-        console.log(file);
-        uploadForm.append("uploadFiles[]", file);
-    }*/
-
     // For single file
     uploadForm.append("inputFile", fileInput.files[0])
 
