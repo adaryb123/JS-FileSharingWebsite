@@ -4,6 +4,7 @@ const linkInput   = document.getElementById("fileLink");
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
 
+    //update downloads counter
     fetch('/updateDownloads', {
         method: 'POST',
         headers: {
@@ -12,6 +13,7 @@ downloadBtn.addEventListener('click', function() {
         body: JSON.stringify({fileURL: fileLink})
     })
 
+    //download the file
     var req = new XMLHttpRequest();
     req.open('GET', "http://localhost:3000/getFile/" + fileLink, true); 
     req.responseType = 'blob'; 

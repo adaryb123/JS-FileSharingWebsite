@@ -6,15 +6,17 @@ const downloadURLInput = document.getElementById("download_url");
 
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
-    /*
-    fetch('/updateDownloads', {
+    
+    // update downloads counter
+    fetch('/updateDownloadsInManage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({fileURL: fileLink})
-    })*/
+    })
 
+    // download the file
     var req = new XMLHttpRequest();
     req.open('GET', "http://localhost:3000/getFileInManage/" + fileLink, true); 
     req.responseType = 'blob'; 
@@ -46,6 +48,7 @@ downloadBtn.addEventListener('click', function() {
 generateBtn.addEventListener('click', function() {
     manageURL = linkInput.value
 
+    // generate new url
     fetch('/updateURL', {
       method: 'POST',
       headers: {
@@ -71,6 +74,7 @@ generateBtn.addEventListener('click', function() {
 removeBtn.addEventListener('click', function() {
     manageURL = linkInput.value
 
+    // remove this file from database
     fetch('/removeFile', {
       method: 'POST',
       headers: {

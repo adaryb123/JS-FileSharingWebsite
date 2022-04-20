@@ -11,7 +11,8 @@
         <h1>Manage file screen</h1>
         <div>
             <h3 class="inline-block-text inline-block-child">File name:</h3> 
-            <input class="inline-block-textfield inline-block-child" type="text" name="filename" id="fileLink" value="<%= fileLink %>">
+            <input class="inline-block-textfield inline-block-child" type="text" name="fileLink" id="fileLink" value="<%= fileLink %>" hidden="true">
+            <input class="inline-block-textfield inline-block-child" type="text" name="fileName" id="fileName" value="<%= fileName %>">
             <button class="inline-block-button inline-block-child" name="download" id="downloadBtn">Download</button>
         <div>
         <button class="remove-button" name="remove" id="removeBtn">Remove file</button><br>
