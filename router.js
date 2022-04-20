@@ -12,6 +12,8 @@ var hostUrl = "http://localhost:3000/";
 var File = require("./model/fileSchema");
 const { runInNewContext } = require("vm");
 const req = require("express/lib/request");
+const { ok } = require("assert");
+const e = require("connect-flash");
 
 // Get express router
 var router = express.Router();
@@ -23,7 +25,7 @@ var file_storage = multer.diskStorage({
         cb(null, req.uniqName + "--" + file.originalname);
         req.storedFileName = req.uniqName + "--" + file.originalname;
     }
-    
+
 });
 
 var upload = multer({storage:file_storage});
@@ -36,7 +38,6 @@ router.get("/",function(req,res){
 
 function insertFile(req, res, next){
     uniquestr = crypto.pseudoRandomBytes(16).toString("hex");
-    console.log(uniquestr)
     req.uniqName = uniquestr;
     next();
 }
@@ -44,7 +45,6 @@ function insertFile(req, res, next){
 // Upload file handler. Listen for upload post.
 router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
     try {
-        console.log('Started database saving');
         var uniqueName = req.storedFileName;
 
         console.log("Stored file: " + uniqueName);
@@ -58,56 +58,84 @@ router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
             manageURL: manageURL,
             originalName: originalName
         });
-    
+
         newFile.save();
-        console.log('Finished database saving');
-        urls = {down: downloadURL,
-                mana: manageURL }
+        urls = {download: downloadURL,
+                manage: manageURL }
         res.send(urls);
 
     } catch (err) {
         console.log(err);
     }
 
-    
+
 })
 
+router.post("/updateDownloads", async (req, res) => {
+    var URL = hostUrl + "download/" + req.body.fileURL
+    try{
+        await File.findOneAndUpdate({downloadURL: URL}, {$inc : {downloadCount : 1}});
+    } catch (err) {
+        console.log(err);
+    }
+    res.sendStatus(201);
+})
 
-router.post("/getfile", (req, res) => {
-    var fileKey = "req.fileLink;"
-    console.log(req.body);
-    File.findOne({downloadURL: hostUrl + "download/" + fileKey}, (err,data) =>{
-        if(err)
-            console.log(err);
-        else
-            console.log(data);
-            var absPath = __dirname+'\\file_storage\\' + data.fileName;
+router.post("/updateURL", async(req,res) => {
+    var manageURL = hostUrl + "manage/" + req.body.fileURL
+    uniquestr = crypto.pseudoRandomBytes(16).toString("hex");
+    var newURL = hostUrl + "download/" + uniquestr
+    try{
+        await File.findOneAndUpdate({manageURL: manageURL}, {downloadURL : newURL});
+    } catch (err) {
+        console.log(err);
+    }
+    res.send({URL: newURL})
+})
 
-            res.download(absPath,data.originalName);
-    })
-});
+router.post("/removeFile", async (req, res) => {
+    var URL = hostUrl + "manage/" + req.body.fileURL
+    try{
+        await File.findOneAndRemove({manageURL: URL});
+    } catch (err) {
+        console.log(err);
+    }
+    res.redirect("/");
+})
 
-router.get("/getfile/:fileKey", async (req, res) => {
-    console.log("Get");
+router.get("/getFile/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
-    console.log(hostUrl + "download/" + fileKey);
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})
-    console.log(data);
     var absPath = __dirname+'\\file_storage\\' + data.fileName;
 
     res.download(absPath,data.originalName);
 });
 
-
-router.get("/download/:fileKey?", (req, res) => {
+router.get("/getFileInManage/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
-    res.render("download_screen",{fileLink: fileKey})
+    var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
+    var absPath = __dirname+'\\file_storage\\' + data.fileName;
 
+    res.download(absPath,data.originalName);
 });
 
-
-router.get("/manage",function(req,res){
-    res.render("manage_screen")
+router.get("/download/:fileKey", async (req, res) => {
+    var fileKey = req.params.fileKey;
+    var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})
+    if (data == null)
+        res.redirect("/")
+    else
+        res.render("download_screen",{fileLink: fileKey})
 });
+
+router.get("/manage/:fileKey", async (req, res) => {
+    var fileKey = req.params.fileKey;
+    var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
+    if (data == null)
+        res.redirect("/")
+    else
+        res.render("manage_screen",{fileLink: fileKey, upload_date: data.uploadDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
+});
+
 
 module.exports = router;

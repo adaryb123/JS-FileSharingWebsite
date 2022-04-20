@@ -6,38 +6,31 @@ const downloadL = document.getElementById("downloadL");
 
 
 uploadBtn.addEventListener("click", function () {
-    const uploadForm = new FormData();
-   
-    // For single file
-    uploadForm.append("inputFile", fileInput.files[0])
+    if (fileInput.files.length == 0){
+        alert("select file first")
+    }
+    else{
+        const uploadForm = new FormData(formUpload);
+        uploadForm.append("inputFile", fileInput.files[0])
 
-    body = {
-        method: "post",
-        body: uploadForm
-    };
-    
-    console.log(body);
-    fetch("http://localhost:3000/upload",body)
-    .then( res => {
-        if (res.ok) {
-            console.log("Ok");
-        } else {
-            console.log("Fetch Failed");
-        }
-        return res.json();
-    })
-    .then(data => {
-        console.log(data);
-        downloadL.value = data.down;
-        manageL.value = data.mana;
-    })
-    .catch(error => console.error(error));
+        body = {
+            method: "post",
+            body: uploadForm
+        };
+        
+        fetch("http://localhost:3000/upload",body)
+        .then( res => {
+            if (res.ok) {
+            } else {
+                console.log("Fetch Failed");
+            }
+            return res.json();
+        })
+        .then(data => {
+            downloadL.value = data.download;
+            manageL.value = data.manage;
+        })
+        .catch(error => console.error(error));
+    }
 
 })
-
-/*
-function uploadFile(){
-    document.getElementById("manage-url").value = "test1";
-    document.getElementById("download-url").value = "test2";
-}
-*/
