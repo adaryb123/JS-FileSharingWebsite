@@ -1,9 +1,8 @@
-
 const fileInput = document.getElementById("fileInput");
 const uploadBtn = document.getElementById("upload");
 const manageL = document.getElementById("manageL");
 const downloadL = document.getElementById("downloadL");
-
+const formUpload = document.getElementById("uploadForm")
 
 uploadBtn.addEventListener("click", function () {
     if (fileInput.files.length == 0){
