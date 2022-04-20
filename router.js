@@ -99,53 +99,15 @@ router.get("/getfile/:fileKey", async (req, res) => {
 });
 
 
-router.get("/download/:fileKey", (req, res) => {
+router.get("/download/:fileKey?", (req, res) => {
     var fileKey = req.params.fileKey;
     res.render("download_screen",{fileLink: fileKey})
 
 });
 
 
-
-
-/*
-var file_storage = multer.diskStorage({
-    destination:"file_storage",
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + "--" + file.originalname);
-    }
-});
- 
-var upload = multer({storage:file_storage});
-
-
-// Uploading
-router.post("/upload", upload.single("shared_file") ,function(req,res,next){
-    
-    var filename = req.file.filename;
-    var downloadURL = "download/" + crypto.pseudoRandomBytes(20).toString("hex")
-    var manageURL = "manage/" + crypto.pseudoRandomBytes(20).toString("hex")
-    var originalName = filename.slice(15)
-
-    console.log(filename)
-    console.log(downloadURL)
-    console.log(manageURL)
-    console.log(originalName)
-
-    var newFile = new File({
-        filename:filename,
-        downloadURL:downloadURL,
-        manageURL:manageURL,
-        originalName:originalName
-    });
-
-    newFile.save(next);
-});
-
-
 router.get("/manage",function(req,res){
     res.render("manage_screen")
-});*/
-
+});
 
 module.exports = router;
