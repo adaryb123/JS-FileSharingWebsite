@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 var database = require("./model/database")
 var findRemoveSync = require('find-remove');
 var bodyParser = require('body-parser')
+var flash = require('connect-flash');
 
 var File = require("./model/fileSchema");
 
@@ -22,6 +23,8 @@ server.use("/file_storage", express.static(path.resolve(__dirname,"file_storage"
 server.use("/static", express.static(path.resolve(__dirname,"static")));
 
 server.use(bodyParser.json());     
+
+server.use(flash())
 
 var router = require("./router")
 server.use(router)
