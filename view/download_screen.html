@@ -7,17 +7,60 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 </head>
 
-<body>
-    <div class="parent">
-        <h1>Download file screen</h1>
-        <div>
-            <h3 class="inline-block-text inline-block-child">File name:</h3> 
-            <input class="inline-block-textfield inline-block-child" type="text" name="fileLink" id="fileLink" value="<%= fileLink %>" hidden="true">
-            <input class="inline-block-textfield inline-block-child" type="text" name="fileName" id="fileName" value="<%= fileName %>">
-            <h3 class="inline-block-text inline-block-child">File size:</h3> 
-            <input class="inline-block-textfield inline-block-child" type="text" name="fileSize" id="fileSize" value="<%= fileSize %>">
-            <button class="inline-block-button inline-block-child" name="download" id="downloadBtn">Download</button>
-        <div>
+
+<body class="body-bground">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+        <a class="brand navbar-brand" href="#">Upload-FIT</a>
+        <div class="center-right">
+            <div class="right-header navbar-nav">
+                <a class="nav-item nav-link" href="http://localhost:3000/">Upload</a>
+                <a class="nav-item nav-link" href="http://localhost:3000/about">About</a>
+            </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="upload shadow-lg p-4 mb-5 rounded">
+            <div class="d-flex" style="vertical-align: middle;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" style="vertical-align: middle;" class="bi bi-file-text" viewBox="0 0 16 16">
+                <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+                </svg><h3><span >File</span></h3>
+            </div>
+            <ul class="d-flex justify-content-between ul-name" style="list-style:none;">
+                <li>
+                    <h4>Name:</h4>
+                </li>
+                <li>
+                    <input type="text" name="fileLink" id="fileLink" value="<%= fileLink %>" hidden="true">
+                    <h2 class="file-name" name="fileName" id="fileName"><%= fileName %></h2>
+                </li>
+                <li aria-hidden="true" class="layout-dummy"> 
+                    <h4>Name:</h4>
+                </li>
+            </ul>
+            <div>
+                <ul class="d-flex justify-content-between" style="list-style:none;">
+                    <li>
+                        <h4>File size:</h4>
+                    </li>
+                    <li>
+                        <h4><%= fileSize %></h4>
+                    </li>
+                    <li aria-hidden="true" class="layout-dummy"> 
+                        <h4>File size:</h4>
+                    </li>
+                </ul>   
+            </div>
+            <div class="btn_container">
+                <button class="btn btn-primary btn-lg" name="download" id="downloadBtn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z"/>
+                    <path fill-rule="evenodd" d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                </svg>Download</button>
+            </div>
+            
+        </div>
     </div>
     <script src="../static/download_screen.js"></script>
 </body>

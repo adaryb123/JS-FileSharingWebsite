@@ -51,9 +51,9 @@ router.get("/manage/:fileKey", async (req, res) => {
     if (data == null)
         res.redirect("/")
     else {
-        var formatedDate = data.uploadDate.toUTCString();
+       var formatedDate = data.uploadDate.toUTCString();
         
-        res.render("manage_screen",{fileLink: fileKey, fileName: data.originalName, upload_date: formatedDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
+        res.render("manage_screen",{fileLink: fileKey, fileSize: data.fileSize, fileName: data.originalName, upload_date: formatedDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
     }
        
 });

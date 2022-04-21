@@ -2,3 +2,4 @@ package-lock.json
 package.json
 .vscode/launch.json
 node_modules/
+file_storage/*

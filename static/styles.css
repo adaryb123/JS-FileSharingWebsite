@@ -25,6 +25,7 @@
 
 .file-name {
     color: var(--text_blue);
+    border-bottom: 3px solid  var(--text_blue);
 }
 
 li.layout-dummy {
@@ -35,7 +36,7 @@ ul {
     padding: 0 !important;
 }
 .ul-name {
-
+    padding-top: 4rem !important;
     padding-bottom: 2rem !important;
 }
 
