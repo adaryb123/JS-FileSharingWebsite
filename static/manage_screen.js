@@ -7,6 +7,9 @@ const downloadURLInput = document.getElementById("download_url");
 downloadBtn.addEventListener('click', function() {
     fileLink = linkInput.value;
     
+    if (fileLink === "")
+      alert("prazdny retazec")
+
     // update downloads counter
     fetch('/updateDownloadsInManage', {
         method: 'POST',
@@ -40,6 +43,9 @@ downloadBtn.addEventListener('click', function() {
             link.click();
           }
         }
+      }
+      else if (req.status === 400) {
+        alert("file no longer exists")
       }
     };
     req.send();

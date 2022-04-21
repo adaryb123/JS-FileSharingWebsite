@@ -38,6 +38,9 @@ downloadBtn.addEventListener('click', function() {
           }
         }
       }
+      else if (req.status === 400) {
+        alert("file no longer exists")
+      }
     };
     req.send();
 })

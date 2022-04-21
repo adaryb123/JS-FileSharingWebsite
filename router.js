@@ -62,18 +62,22 @@ router.get("/manage/:fileKey", async (req, res) => {
 router.get("/getFile/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})
-    var absPath = __dirname+'\\file_storage\\' + data.fileName;
-
-    res.download(absPath,data.originalName);
+    if (data == null){
+        return res.status(400).send();}
+    else{
+        var absPath = __dirname+'\\file_storage\\' + data.fileName;
+        res.download(absPath,data.originalName);}
 });
 
 // download file from the manage screen
 router.get("/getFileInManage/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
     var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
-    var absPath = __dirname+'\\file_storage\\' + data.fileName;
-
-    res.download(absPath,data.originalName);
+    if (data == null){
+        return res.status(400).send();}
+    else{
+        var absPath = __dirname+'\\file_storage\\' + data.fileName;
+        res.download(absPath,data.originalName);}
 });
 
 // ***********************************     POST METHODS     ***********************************
