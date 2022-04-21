@@ -4,6 +4,17 @@ const manageL = document.getElementById("manageL");
 const downloadL = document.getElementById("downloadL");
 const formUpload = document.getElementById("uploadForm")
 
+
+fileInput.onchange = function() {
+    if(fileInput.value == "") {
+        uploadBtn.setAttribute("disabled", true);
+    } else { 
+        uploadBtn.removeAttribute("disabled");
+    }
+};
+
+
+
 uploadBtn.addEventListener("click", function () {
     if (fileInput.files.length == 0){
         //cannot upload empty file

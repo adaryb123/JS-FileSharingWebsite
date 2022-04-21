@@ -3,7 +3,7 @@
     --darker_grey: #212529;
     --normal_grey: #6c757d;
     --light_grey: #adb5bd;
-
+    --text_blue: #0d6efd;
 }
 
 .body-bground{
@@ -23,6 +23,27 @@
     margin-left: 4rem;
 }
 
+.file-name {
+    color: var(--text_blue);
+}
+
+li.layout-dummy {
+    color: transparent;
+}
+
+ul {
+    padding: 0 !important;
+}
+.ul-name {
+
+    padding-bottom: 2rem !important;
+}
+
+.icon,
+.text {
+  vertical-align: middle;
+  display: inline-block;
+}
 
 .upload {
     margin: 4rem;
@@ -34,6 +55,10 @@
     font-size: 1.5rem !important;
 }
 
+.btn {
+    font-size: 1.4rem;
+    line-height: 1.5;
+}
 
 .upload_btn{
     font-size: 1.5rem !important;
@@ -49,6 +74,10 @@
     
 }
 
+.manage_url {
+    width: 90%;
+    
+}
 .btn_container {
     text-align: center;
     font-size: 1.4rem;
