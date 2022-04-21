@@ -7,7 +7,8 @@ var fileSchema = mongoose.Schema({
     downloadURL:{type:String, required:true, unique:true},
     manageURL:{type:String, required:true, unique:true},
     uploadDate:{type:Date,default:Date.now},
-    downloadCount:{type:Number, default: 0}
+    downloadCount:{type:Number, default: 0},
+    fileSize:{type:String, required:true}
 });
 
 var File = mongoose.model("File", fileSchema);
