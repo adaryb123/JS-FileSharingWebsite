@@ -41,7 +41,7 @@ router.get("/download/:fileKey", async (req, res) => {
     if (data == null)
         res.redirect("/")
     else
-        res.render("download_screen",{fileLink: fileKey, fileName: data.originalName})
+        res.render("download_screen",{fileLink: fileKey, fileName: data.originalName, fileSize: data.fileSize})
 });
 
 // render manage screen if url links to valid file
@@ -83,8 +83,16 @@ router.get("/getFileInManage/:fileKey", async (req, res) => {
 router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
     try {
         var uniqueName = req.storedFileName;
-
-        console.log("Stored file: " + uniqueName);
+        var fileSizeString = ""
+        if (req.file.size < 1024)
+            fileSizeString = req.file.size + "B"
+        else if (req.file.size < 1024 * 1024)
+            fileSizeString = Math.round(req.file.size / 1024) + "KB"
+        else if (req.file.size < 1024 * 1024 * 1024) 
+            fileSizeString = Math.round(req.file.size / 1024 / 1024) + "MB"
+        else
+            fileSizeString = Math.round(req.file.size / 1024 / 1024 / 1024) + "GB"
+        console.log("Stored file: " + uniqueName + " with size: " + fileSizeString);
         var downloadURL = hostUrl + "download/" + crypto.pseudoRandomBytes(16).toString("hex");
         var manageURL = hostUrl + "manage/" + crypto.pseudoRandomBytes(16).toString("hex");
         var originalName = req.file.originalname;
@@ -93,7 +101,8 @@ router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
             fileName: uniqueName,
             downloadURL: downloadURL,
             manageURL: manageURL,
-            originalName: originalName
+            originalName: originalName,
+            fileSize: fileSizeString
         });
 
         newFile.save();
