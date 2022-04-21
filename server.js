@@ -35,7 +35,7 @@ server.use(router)
 server.listen(server.get("port"), function(){
     console.log("Server started on port " + server.get("port"))
 
-    //server deletes old files every minute
+    /*//server deletes old files every minute
     var date_threshold = new Date(Date.now());
     date_threshold.setMinutes(date_threshold.getMinutes() - 1);
     var repeat_time = 60000;        // how often will the system delete files (in miliseconds)
@@ -60,5 +60,5 @@ server.listen(server.get("port"), function(){
                   if (err) {return console.error(err);
                   }});}});});});
         console.log("Deleting files older than "  + date_threshold);
-      }, repeat_time);
+      }, repeat_time);*/
 });

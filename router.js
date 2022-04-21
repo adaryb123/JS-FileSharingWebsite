@@ -50,8 +50,12 @@ router.get("/manage/:fileKey", async (req, res) => {
     var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
     if (data == null)
         res.redirect("/")
-    else
-        res.render("manage_screen",{fileLink: fileKey, fileName: data.originalName, upload_date: data.uploadDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
+    else {
+        var formatedDate = data.uploadDate.toUTCString();
+        
+        res.render("manage_screen",{fileLink: fileKey, fileName: data.originalName, upload_date: formatedDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
+    }
+       
 });
 
 // download file from the download screen
