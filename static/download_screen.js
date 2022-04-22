@@ -16,6 +16,7 @@ downloadBtn.addEventListener('click', function() {
     })
 
     // Download the file, create ajax request
+    // This block of code is based on https://stackoverflow.com/questions/56652397/res-download-working-with-html-form-submit-but-not-an-axios-post-call
     var req = new XMLHttpRequest();
     req.open('GET', "http://localhost:3000/getFile/" + fileLink, true); 
     req.responseType = 'blob'; 
