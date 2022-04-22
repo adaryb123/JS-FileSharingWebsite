@@ -17,11 +17,11 @@ fileInput.onchange = function() {
 
 uploadBtn.addEventListener("click", function () {
     if (fileInput.files.length == 0){
-        //cannot upload empty file
+        // Cannot upload empty file
         alert("select file first")
     }
     else{
-        //upload the selected file
+        // Upload the selected file
         const uploadForm = new FormData(formUpload);
         uploadForm.append("inputFile", fileInput.files[0])
 

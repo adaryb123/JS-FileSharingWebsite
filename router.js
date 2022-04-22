@@ -2,14 +2,17 @@ var express = require("express");
 var multer = require("multer");
 var crypto = require("crypto");
 
-// initialize some variables
-var hostUrl = "http://localhost:3000/";
+// Initializing constants
+const hostUrl = "http://localhost:3000/";
+// Database conector
 var File = require("./model/fileSchema");
+const { render } = require("express/lib/response");
 var router = express.Router();
 
-// initialize file storage
+// Initialize file storage
 var file_storage = multer.diskStorage({
     destination:"file_storage",
+    // Name under which file is stored
     filename: function (req, file, cb) {
         cb(null, req.uniqName + "--" + file.originalname);
         req.storedFileName = req.uniqName + "--" + file.originalname;
@@ -17,26 +20,27 @@ var file_storage = multer.diskStorage({
 
 });
 
-// the stored file name is randomly generated
+// The stored file name is randomly generated
 function insertFile(req, res, next){
     uniquestr = crypto.pseudoRandomBytes(16).toString("hex");
     req.uniqName = uniquestr;
     next();
 }
 
-// this uploads file to the storage
+// This uploads file to the storage
 var upload = multer({storage:file_storage});
 
 // ***********************************     GET METHODS     ***********************************
 
-//render main screen
+// Render main upload screen
 router.get("/",function(req,res){
     res.render("main_screen");
 });
 
-// render download screen if url links to valid file
+// Render download screen if valid file has was appended
 router.get("/download/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
+    // Find the file in database
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})
     if (data == null)
         res.redirect("/")
@@ -44,24 +48,27 @@ router.get("/download/:fileKey", async (req, res) => {
         res.render("download_screen",{fileLink: fileKey, fileName: data.originalName, fileSize: data.fileSize})
 });
 
-// render manage screen if url links to valid file
+// Render manage screen if url links to valid file
 router.get("/manage/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
+    // Find the file in database
     var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
     if (data == null)
         res.redirect("/")
     else {
-       var formatedDate = data.uploadDate.toUTCString();
-        
+        // Convert The date into readable string
+        var formatedDate = data.uploadDate.toUTCString();
         res.render("manage_screen",{fileLink: fileKey, fileSize: data.fileSize, fileName: data.originalName, upload_date: formatedDate, times_downloaded: data.downloadCount, download_url: data.downloadURL})
     }
        
 });
 
-// download file from the download screen
+// Download file from the download screen
 router.get("/getFile/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
+    // Find the file in DB
     var data = await File.findOne({downloadURL: hostUrl + "download/" + fileKey})
+    // Check if file was found
     if (data == null){
         return res.status(400).send();}
     else{
@@ -69,24 +76,34 @@ router.get("/getFile/:fileKey", async (req, res) => {
         res.download(absPath,data.originalName);}
 });
 
-// download file from the manage screen
+// Download file from the manage screen
 router.get("/getFileInManage/:fileKey", async (req, res) => {
     var fileKey = req.params.fileKey;
+    // Find the file in DB
     var data = await File.findOne({manageURL: hostUrl + "manage/" + fileKey})
+    // Check if file was found
     if (data == null){
         return res.status(400).send();}
     else{
         var absPath = __dirname+'\\file_storage\\' + data.fileName;
         res.download(absPath,data.originalName);}
+});
+
+
+
+// Prints About screen
+router.get("/about", (req, res) => {
+    res.render("about_screen");
 });
 
 // ***********************************     POST METHODS     ***********************************
 
 
-// upload file in the main screen
+// Upload file from the main screen
 router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
     try {
         var uniqueName = req.storedFileName;
+        // Get the correct size format for output
         var fileSizeString = ""
         if (req.file.size < 1024)
             fileSizeString = req.file.size + "B"
@@ -96,11 +113,16 @@ router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
             fileSizeString = Math.round(req.file.size / 1024 / 1024) + "MB"
         else
             fileSizeString = Math.round(req.file.size / 1024 / 1024 / 1024) + "GB"
+
         console.log("Stored file: " + uniqueName + " with size: " + fileSizeString);
+
+        // Generate pseudo random strings for download and manage link
         var downloadURL = hostUrl + "download/" + crypto.pseudoRandomBytes(16).toString("hex");
         var manageURL = hostUrl + "manage/" + crypto.pseudoRandomBytes(16).toString("hex");
+        // Save the original name
         var originalName = req.file.originalname;
 
+        // Create database object for storing metadata
         var newFile = new File({
             fileName: uniqueName,
             downloadURL: downloadURL,
@@ -109,9 +131,12 @@ router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
             fileSize: fileSizeString
         });
 
+        // Save file to database
         newFile.save();
         urls = {download: downloadURL,
                 manage: manageURL }
+        
+        // Render site
         res.send(urls);
 
     } catch (err) {
@@ -121,9 +146,10 @@ router.post("/upload", insertFile, upload.single("inputFile"), (req, res) => {
 
 })
 
-// update downloads counter when downloading file - in download screen
+// Update downloads counter when downloading file - in download screen
 router.post("/updateDownloads", async (req, res) => {
     var URL = hostUrl + "download/" + req.body.fileURL
+    // Find file and update
     try{
         await File.findOneAndUpdate({downloadURL: URL}, {$inc : {downloadCount : 1}});
     } catch (err) {
@@ -132,9 +158,10 @@ router.post("/updateDownloads", async (req, res) => {
     res.sendStatus(201);
 })
 
-// update downloads counter when downloading file - in manage screen
+// Update downloads counter when downloading file - in manage screen
 router.post("/updateDownloadsInManage", async (req, res) => {
     var URL = hostUrl + "manage/" + req.body.fileURL
+     // Find file and update
     try{
         await File.findOneAndUpdate({manageURL: URL}, {$inc : {downloadCount : 1}});
     } catch (err) {
@@ -143,11 +170,15 @@ router.post("/updateDownloadsInManage", async (req, res) => {
     res.sendStatus(201);
 })
 
-// generate new download url for the selected file - in manage screen
+// Generate new download url for the selected file - in manage screen
 router.post("/updateURL", async(req,res) => {
+    // Manage url for searching in DB
     var manageURL = hostUrl + "manage/" + req.body.fileURL
+    // New download url
     uniquestr = crypto.pseudoRandomBytes(16).toString("hex");
     var newURL = hostUrl + "download/" + uniquestr
+
+    // Update the new download url based on manage url
     try{
         await File.findOneAndUpdate({manageURL: manageURL}, {downloadURL : newURL});
     } catch (err) {
@@ -156,7 +187,7 @@ router.post("/updateURL", async(req,res) => {
     res.send({URL: newURL})
 })
 
-// remove the selected file from database - in manage screen
+// Remove the selected file from database - in manage screen
 router.post("/removeFile", async (req, res) => {
     var URL = hostUrl + "manage/" + req.body.fileURL
     try{

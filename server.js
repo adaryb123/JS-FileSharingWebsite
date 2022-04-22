@@ -6,20 +6,20 @@ var bodyParser = require('body-parser')
 var fs = require('fs');
 var rimraf = require('rimraf')
 
-//declare server
+// Declare server
 var server = express();
 
-//database
+// Init database and conncet
 var File = require("./model/fileSchema");
 mongoose.connect(database.URL);
 
-//uploaded files are stored in this folder
+// Uploaded files are stored in this folder
 server.use("/file_storage", express.static(path.resolve(__dirname,"file_storage")));
   
-//server runs on localhost:3000
+// Server runs on localhost:3000
 server.set("port", process.env.PORT || 3000);
 
-//frontend
+// Init server variables for views, engine, html
 server.set("views", path.join(__dirname,"view"));
 server.engine('html', require('ejs').renderFile);
 server.set('view engine', 'html');
@@ -27,15 +27,15 @@ server.set(express.urlencoded({extended: true}));
 server.use(bodyParser.json());   
 server.use("/static", express.static(path.resolve(__dirname,"static")));
   
-//router module will control the get and post requests
+// Router module will control the get and post requests
 var router = require("./router")
 server.use(router)
 
-//server listens on loop
+// Server listener with old file deletion
 server.listen(server.get("port"), function(){
     console.log("Server started on port " + server.get("port"))
 
-    /*//server deletes old files every minute
+    //Server deletes old files every 24h
     var date_threshold = new Date(Date.now());
     date_threshold.setMinutes(date_threshold.getMinutes() - 1);
     var repeat_time = 60000;        // how often will the system delete files (in miliseconds)
@@ -46,10 +46,10 @@ server.listen(server.get("port"), function(){
         var date_threshold = new Date(Date.now());
         date_threshold.setMinutes(date_threshold.getMinutes() - age_threshold); 
 
-        //delete from database
+        // Delete from database
         File.deleteMany({uploadDate: {$lte: date_threshold}}, function(err,match){})
 
-        //delete from filesystem
+        // Delete from filesystem
         fs.readdir(uploadsDir, function(err, files) {
           files.forEach(function(file, index) {
             fs.stat(path.join(uploadsDir, file), function(err, stat) {
@@ -60,5 +60,5 @@ server.listen(server.get("port"), function(){
                   if (err) {return console.error(err);
                   }});}});});});
         console.log("Deleting files older than "  + date_threshold);
-      }, repeat_time);*/
+      }, repeat_time);
 });
