@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 var database = require("./model/database")
 var fs = require('fs');
 var rimraf = require('rimraf')
+var bodyParser = require('body-parser')
 
 // Declare server
 var server = express();
@@ -24,6 +25,7 @@ server.engine('html', require('ejs').renderFile);
 server.set('view engine', 'html');
 server.set(express.urlencoded({extended: true}));
 server.use("/static", express.static(path.resolve(__dirname,"static")));
+server.use(bodyParser.json());
   
 // Router module will control the get and post requests
 var router = require("./router")
@@ -33,11 +35,11 @@ server.use(router)
 server.listen(server.get("port"), function(){
     console.log("Server started on port " + server.get("port"))
 
-    //Server deletes old files every 24h
+    //Server deletes files older than hour
     var date_threshold = new Date(Date.now());
     date_threshold.setMinutes(date_threshold.getMinutes() - 1);
     var repeat_time = 60000;        // how often will the system delete files (in miliseconds)
-    var age_threshold = 24*60;          // how old files will be deleted (in minutes)
+    var age_threshold = 60;          // how old files will be deleted (in minutes)
     var uploadsDir = __dirname + '/file_storage';
 
     setInterval(function(){
